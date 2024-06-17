@@ -7,14 +7,14 @@ function HomePage() {
       <div className="App">
         <header className="header">
         </header>
-        <div className="grid-container">
-          <Link to="/MainPage" className="grid-item">
+        <div className="wide-grid-container">
+          <Link to="/MainPage" className="wide-grid-item">
             <span>Open Calendar</span>
           </Link>
-          <Link to="/Tutorial" className="grid-item">
+          <Link to="/Tutorial" className="wide-grid-item">
             <span>Tutorial</span>
           </Link>
-          <Link to="/SoftwareInfo" className="grid-item">
+          <Link to="/SoftwareInfo" className="wide-grid-item">
             <span>Software Information</span>
           </Link>
         </div>
