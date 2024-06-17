@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './App.css';
 
 function MainPage() {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const currentDay = new Date().toLocaleString('en-US', { weekday: 'long' });
+
     return (
       <div className="App">
         <header className="header">
@@ -11,33 +14,17 @@ function MainPage() {
           <button className="right-button">→</button>
         </header>
         <div className="grid-container">
-          <Link to="/day/Sunday" className="grid-item">
-            <span>Sunday</span>
-          </Link>
-          <Link to="/day/Monday" className="grid-item">
-            <span>Monday</span>
-          </Link>
-          <Link to="/day/Tuesday" className="grid-item">
-            <span>Tuesday</span>
-          </Link>
-          <Link to="/day/Wednesday" className="grid-item">
-            <span>Wednesday</span>
-          </Link>
-          <Link to="/day/Thursday" className="grid-item">
-            <span>Thursday</span>
-          </Link>
-          <Link to="/day/Friday" className="grid-item">
-            <span>Friday</span>
-          </Link>
-          <Link to="/day/Saturday" className="grid-item">
-            <span>Saturday</span>
-          </Link>
+          {days.map((day) => ( //Cryptic and esoteric ChatGPT grid generator that is used to change the current day colour.
+            <Link to={`/day/${day}`} className={`grid-item ${day === currentDay ? 'current-day' : ''}`} key={day}>
+              <span>{day}</span>
+            </Link>
+          ))}
           <Link to="/staff" className="grid-item">
             <span>Staff</span>
           </Link>
         </div>
       </div>
     );
-  }
+}
 
-  export default MainPage;
+export default MainPage;

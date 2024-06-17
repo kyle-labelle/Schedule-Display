@@ -7,7 +7,7 @@ function DailyPage() {
   const navigate = useNavigate();
 
   const handleBackClick = () => {
-    navigate('/');
+    navigate('/MainPage');
   };
 
   return (
