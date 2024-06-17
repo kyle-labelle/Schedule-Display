@@ -4,12 +4,14 @@ import './App.css';
 import DailyPage from './DailyPage';
 import MainPage from './MainPage';
 import StaffPage from './StaffPage';
+import HomePage from './HomePage';
 
-function App() {
+function App() { //TODO: Uncomment and make this redirect from 'Open Calendar'
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<MainPage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/mainpage" element={<MainPage />} />
         <Route path="/day/:day" element={<DailyPage />} />
         <Route path="/staff" element={<StaffPage />} />
       </Routes>
