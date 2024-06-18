@@ -18,5 +18,4 @@ function App() { //TODO: Uncomment and make this redirect from 'Open Calendar'
     </Router>
   );
 }
-
 export default App;
