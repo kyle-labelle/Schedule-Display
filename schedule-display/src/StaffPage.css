@@ -7,7 +7,7 @@
   }
   
   .left-container, .right-container {
-    background-color: #fc403d; 
+    background-color: #007bff; 
     color: white; 
     display: flex;
     flex-direction: column;

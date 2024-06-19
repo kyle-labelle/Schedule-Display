@@ -6,7 +6,7 @@ function StaffPage() {
   const navigate = useNavigate();
 
   const handleBackClick = () => {
-    navigate('/MainPage');
+    navigate('/');
   };
 
   return (

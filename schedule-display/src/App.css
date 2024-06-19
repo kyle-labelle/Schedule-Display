@@ -26,21 +26,27 @@
 
 .left-button,
 .right-button {
-  padding: 10px 20px;
+  padding: 0em;
+  width: 40%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+  align-items: center;
   background-color: #fc403d;
   color: white;
   border: none;
   cursor: pointer;
-  border-radius: 5px;
-  font-size: 1.5em;
+  border-radius: 8px;
+  font-size: 6em;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
 }
 
-.left-button {
-  align-self: flex-start;
-}
-
-.right-button {
-  align-self: flex-end;
+.left-button:hover,
+.right-button:hover {
+  background-color: #d33731;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .wide-grid-container {

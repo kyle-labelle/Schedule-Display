@@ -11,8 +11,8 @@ function HomePage() {
           <Link to="/MainPage" className="wide-grid-item">
             <span>Open Calendar</span>
           </Link>
-          <Link to="/Tutorial" className="wide-grid-item">
-            <span>Tutorial</span>
+          <Link to="/staff" className="wide-grid-item">
+            <span>Staff Page</span>
           </Link>
           <Link to="/SoftwareInfo" className="wide-grid-item">
             <span>Software Information</span>
