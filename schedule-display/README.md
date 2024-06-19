@@ -1,3 +1,9 @@
+# Requirements
+
+The back-end of this software runs on python and uses Flask & Flask-CORS. This is easily obtainable using the built-in python package manager using the command:
+
+### `pip install Flask Flask-CORS`
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
