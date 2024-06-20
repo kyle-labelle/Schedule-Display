@@ -5,7 +5,7 @@ import './StaffPage.css';
 function StaffPage() {
   const navigate = useNavigate();
   const [staffMembers, setStaffMembers] = useState([]);
-  const [newStaff, setNewStaff] = useState({ name: '', position: '' });
+  const [newStaff, setNewStaff] = useState({ name: '', position: '', photo: null });
 
   useEffect(() => {
     fetch('http://localhost:5000/staff')
@@ -23,19 +23,25 @@ function StaffPage() {
     setNewStaff(prevState => ({ ...prevState, [name]: value }));
   };
 
+  const handleFileChange = (e) => {
+    setNewStaff(prevState => ({ ...prevState, photo: e.target.files[0] }));
+  };
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append('name', newStaff.name);
+    formData.append('position', newStaff.position);
+    formData.append('photo', newStaff.photo);
+
     fetch('http://localhost:5000/staff', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newStaff),
+      body: formData,
     })
       .then(response => response.json())
       .then(data => {
         setStaffMembers(prevState => [...prevState, data]);
-        setNewStaff({ name: '', position: '' });
+        setNewStaff({ name: '', position: '', photo: null });
       })
       .catch(error => console.error('Error adding staff member:', error));
   };
@@ -46,7 +52,12 @@ function StaffPage() {
         <h1>List of Staff Members</h1>
         <ul>
           {staffMembers.map((staff, index) => (
-            <li key={index}>{staff.name} - {staff.position}</li>
+            <li key={index}>
+              {staff.name} - {staff.position}
+              {staff.photo && <img src={`http://localhost:5000/data/uploads/${staff.photo}`} alt={`Error fetching staff profile picture.`} 
+              style={{ width: '100px', height: '100px' }}
+              />}
+            </li>
           ))}
         </ul>
       </div>
@@ -70,6 +81,15 @@ function StaffPage() {
               name="position"
               value={newStaff.position}
               onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div>
+            <label>Photo:</label>
+            <input
+              type="file"
+              name="photo"
+              onChange={handleFileChange}
               required
             />
           </div>

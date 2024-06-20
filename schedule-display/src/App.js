@@ -14,6 +14,7 @@ function App() { //TODO: Uncomment and make this redirect from 'Open Calendar'
         <Route path="/mainpage" element={<MainPage />} />
         <Route path="/day/:day" element={<DailyPage />} />
         <Route path="/staff" element={<StaffPage />} />
+        
       </Routes>
     </Router>
   );

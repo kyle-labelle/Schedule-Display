@@ -1,15 +1,21 @@
-#To get the server to work this must be run independently of the ReactJS site.
-#I have no idea how to get concurrently to work.
-
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
+from werkzeug.utils import secure_filename
 import json
 import os
 
 app = Flask(__name__)
 CORS(app)
 
-DATA_FILE = 'staff_members.json'
+UPLOAD_FOLDER = 'src/data/uploads'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+DATA_FILE = 'src/data/staff_members.json'
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def load_staff_members():
     if os.path.exists(DATA_FILE):
@@ -29,10 +35,26 @@ def get_staff():
 
 @app.route('/staff', methods=['POST'])
 def add_staff():
-    new_staff = request.json
-    staff_members.append(new_staff)
-    save_staff_members(staff_members)
-    return jsonify(new_staff), 201
+    name = request.form['name']
+    position = request.form['position']
+    if 'photo' not in request.files:
+        return jsonify({'error': 'No photo part in the request'}), 400
+    photo = request.files['photo']
+    if photo.filename == '':
+        return jsonify({'error': 'No selected file'}), 400
+    if photo and allowed_file(photo.filename):
+        filename = secure_filename(photo.filename)
+        photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        new_staff = {'name': name, 'position': position, 'photo': filename}
+        staff_members.append(new_staff)
+        save_staff_members(staff_members)
+        return jsonify(new_staff), 201
+    else:
+        return jsonify({'error': 'File type not allowed'}), 400
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 if __name__ == '__main__':
     app.run(debug=True)
