@@ -5,29 +5,35 @@ import json
 import os
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
-UPLOAD_FOLDER = 'src/data/uploads'
+UPLOAD_FOLDER = os.path.join(app.root_path, 'src/data/uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-DATA_FILE = 'src/data/staff_members.json'
+DATA_FILE = os.path.join(app.root_path, 'src/data/staff_members.json')
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def load_staff_members():
     if os.path.exists(DATA_FILE):
-        with open(DATA_FILE, 'r') as file:
-            return json.load(file)
+        try:
+            with open(DATA_FILE, 'r') as file:
+                return json.load(file)
+        except json.JSONDecodeError:
+            return []
     return []
 
 def save_staff_members(staff_members):
+    print(f"Saving {len(staff_members)} staff members to {DATA_FILE}")
     with open(DATA_FILE, 'w') as file:
         json.dump(staff_members, file, indent=4)
+    print("Save successful")
 
 staff_members = load_staff_members()
+print(f"Loaded {len(staff_members)} staff members from {DATA_FILE}")
 
 @app.route('/staff', methods=['GET'])
 def get_staff():
@@ -47,6 +53,7 @@ def add_staff():
         photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         new_staff = {'name': name, 'position': position, 'photo': filename}
         staff_members.append(new_staff)
+        print(f"Adding new staff member: {new_staff}")
         save_staff_members(staff_members)
         return jsonify(new_staff), 201
     else:

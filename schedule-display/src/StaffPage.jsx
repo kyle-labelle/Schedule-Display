@@ -54,9 +54,13 @@ function StaffPage() {
           {staffMembers.map((staff, index) => (
             <li key={index}>
               {staff.name} - {staff.position}
-              {staff.photo && <img src={`http://localhost:5000/data/uploads/${staff.photo}`} alt={`Error fetching staff profile picture.`} 
-              style={{ width: '100px', height: '100px' }}
-              />}
+              {staff.photo && (
+                <img 
+                  src={`http://localhost:5000/uploads/${staff.photo}`} 
+                  alt={`Profile of ${staff.name}`} 
+                  style={{ width: '100px', height: '100px' }} 
+                />
+              )}
             </li>
           ))}
         </ul>
