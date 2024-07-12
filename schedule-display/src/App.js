@@ -5,6 +5,7 @@ import DailyPage from './DailyPage';
 import MainPage from './MainPage';
 import StaffPage from './StaffPage';
 import HomePage from './HomePage';
+import EventPage from './EventPage';
 
 function App() { //TODO: Uncomment and make this redirect from 'Open Calendar'
   return (
@@ -14,6 +15,7 @@ function App() { //TODO: Uncomment and make this redirect from 'Open Calendar'
         <Route path="/mainpage" element={<MainPage />} />
         <Route path="/day/:day" element={<DailyPage />} />
         <Route path="/staff" element={<StaffPage />} />
+        <Route path="/event" element={<EventPage />} />
         
       </Routes>
     </Router>
