@@ -92,6 +92,10 @@ def add_event():
     print(f"Adding new event: {new_event}")
     save_events(events)
     return jsonify(new_event), 201
+
+@app.route('/event', methods=['GET'])
+def get_events():
+    return jsonify(events)
     
 
 @app.route('/uploads/<filename>')
