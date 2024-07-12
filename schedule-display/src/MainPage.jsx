@@ -69,8 +69,8 @@ function MainPage() {
                         <span className="date-number">{getDateNumber(index)}</span>
                     </Link>
                 ))}
-                <Link to="/staff" className="grid-item">
-                    <span>Staff</span>
+                <Link to="/event" className="grid-item">
+                    <span>Event Page</span>
                 </Link>
             </div>
             <footer className="footer">

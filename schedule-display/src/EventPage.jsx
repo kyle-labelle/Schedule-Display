@@ -11,7 +11,7 @@ function EventPage() {
   const [eventDate, setEventDate] = useState(new Date());
 
   const handleBackClick = () => {
-    navigate('/');
+    navigate('/MainPage');
   };
 
   const handleSubmitClick = () => {
