@@ -1,7 +1,17 @@
 [
     {
         "name": "Kyle Labelle",
-        "position": "Developer",
+        "position": "App Developer",
         "photo": "kylelabelle.jpg"
+    },
+    {
+        "name": "Staff Member",
+        "position": "Caretaker",
+        "photo": "puppy.jpg"
+    },
+    {
+        "name": "New Staff",
+        "position": "Caretaker",
+        "photo": "cat.jpg"
     }
 ]

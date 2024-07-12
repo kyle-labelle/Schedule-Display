@@ -51,19 +51,21 @@ function StaffPage() {
       <div className="left-container">
         <h1>List of Staff Members</h1>
         <ul>
-          {staffMembers.map((staff, index) => (
-            <li key={index}>
-              {staff.name} - {staff.position}
-              {staff.photo && (
-                <img 
-                  src={`http://localhost:5000/uploads/${staff.photo}`} 
-                  alt={`Profile of ${staff.name}`} 
-                  style={{ width: '100px', height: '100px' }} 
-                />
-              )}
-            </li>
-          ))}
-        </ul>
+  {staffMembers.map((staff, index) => (
+    <li key={index} className="staff-item">
+      <span className="staff-name">{staff.name} - {staff.position}</span>
+      {staff.photo && (
+        <img 
+          src={`http://localhost:5000/uploads/${staff.photo}`} 
+          alt={`Profile of ${staff.name}`} 
+          className="staff-photo"
+          style={{ width: '80px', height: '100px' }} 
+        />
+      )}
+    </li>
+  ))}
+</ul>
+
       </div>
       <div className="right-container">
         <h1>Add new Staff Member</h1>
@@ -73,6 +75,7 @@ function StaffPage() {
             <input
               type="text"
               name="name"
+              className="name-input"
               value={newStaff.name}
               onChange={handleInputChange}
               required
@@ -83,6 +86,7 @@ function StaffPage() {
             <input
               type="text"
               name="position"
+              className="position-input"
               value={newStaff.position}
               onChange={handleInputChange}
               required
@@ -93,6 +97,7 @@ function StaffPage() {
             <input
               type="file"
               name="photo"
+              className="browse-button"
               onChange={handleFileChange}
               required
             />
