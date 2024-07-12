@@ -43,10 +43,16 @@ function MainPage() {
     };
 
     //Check if a given day in the current week matches the actual current date
-    const isCurrentDay = (day) => {
+    const isCurrentDay = (dayIndex) => {
         const dayDate = new Date(week.firstDay);
-        dayDate.setDate(week.firstDay.getDate() + days.indexOf(day));
+        dayDate.setDate(week.firstDay.getDate() + dayIndex);
         return dayDate.toDateString() === today.toDateString();
+    };
+
+    const getDateNumber = (dayIndex) => {
+        const dayDate = new Date(week.firstDay);
+        dayDate.setDate(week.firstDay.getDate() + dayIndex);
+        return dayDate.getDate();
     };
 
     return (
@@ -57,9 +63,10 @@ function MainPage() {
                 <button className="right-button" onClick={handleNextWeek}>→</button>
             </header>
             <div className="grid-container">
-                {days.map((day) => (
-                    <Link to={`/day/${day}`} className={`grid-item ${isCurrentDay(day) ? 'current-day' : ''}`} key={day}>
-                        <span>{day}</span>
+                {days.map((day, index) => (
+                    <Link to={`/day/${day}`} className={`grid-item ${isCurrentDay(index) ? 'current-day' : ''}`} key={day}>
+                        <span className="day-name">{day}</span>
+                        <span className="date-number">{getDateNumber(index)}</span>
                     </Link>
                 ))}
                 <Link to="/staff" className="grid-item">

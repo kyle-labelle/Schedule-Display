@@ -109,3 +109,11 @@
 .current-day:hover {
   background-color: darkgreen;
 }
+
+.day-name {
+  font-size: 1em;
+}
+
+.date-number {
+  font-size: 1.5em;
+}
