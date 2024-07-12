@@ -12,7 +12,7 @@ function EventPage() {
   const [newEvent, setNewEvent] = useState({ name: '', description: '', datetime: null });
 
   const handleBackClick = () => {
-    navigate('/');
+    navigate('/MainPage');
   };
 
   const handleSubmitClick = () => {
