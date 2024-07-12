@@ -9,6 +9,7 @@ function EventPage() {
   const [eventName, setEventName] = useState('');
   const [eventDescription, setEventDescription] = useState('');
   const [eventDate, setEventDate] = useState(new Date());
+  const [newEvent, setNewEvent] = useState({ name: '', description: '', datetime: null });
 
   const handleBackClick = () => {
     navigate('/');
@@ -20,6 +21,24 @@ function EventPage() {
       description: eventDescription,
       date: eventDate,
     });
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('name', eventName);
+    formData.append('description', eventDescription);
+    formData.append('datetime', eventDate);
+
+    fetch('http://localhost:5000/event', {
+      method: 'POST',
+      body: formData,
+    })
+      .then(response => response.json())
+      .then(data => {
+        setNewEvent({ name: '', description: '', datetime: null });
+      })
+      .catch(error => console.error('Error adding Event:', error));
   };
 
   return (
@@ -55,7 +74,7 @@ function EventPage() {
               required
             />
           </div>
-          <button type="button" onClick={handleSubmitClick}>Submit Event</button>
+          <button type="button" onClick={handleFormSubmit}>Submit Event</button>
         </form>
       </div>
       <button className="back-button" onClick={handleBackClick}>Back</button>

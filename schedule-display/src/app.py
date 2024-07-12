@@ -13,6 +13,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 DATA_FILE = os.path.join(app.root_path, 'src/data/staff_members.json')
+EVENT_DATA_FILE = os.path.join(app.root_path, 'src/data/events.json')
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -58,6 +59,40 @@ def add_staff():
         return jsonify(new_staff), 201
     else:
         return jsonify({'error': 'File type not allowed'}), 400
+
+
+
+#EVENTS
+def load_events():
+    if os.path.exists(EVENT_DATA_FILE):
+        try:
+            with open(EVENT_DATA_FILE, 'r') as file:
+                return json.load(file)
+        except json.JSONDecodeError:
+            return []
+    return []
+
+def save_events(events):
+    print(f"Saving {len(events)} events to {EVENT_DATA_FILE}")
+    with open(EVENT_DATA_FILE, 'w') as file:
+        json.dump(events, file, indent=4)
+    print("Save successful")
+
+events = load_events()
+print(f"Loaded {len(events)} events from {EVENT_DATA_FILE}")
+
+@app.route('/event', methods=['POST'])
+def add_event():
+    name = request.form['name']
+    description = request.form['description']
+    datetime = request.form['datetime']
+
+    new_event = {'name': name, 'description': description, 'datetime': datetime}
+    events.append(new_event)
+    print(f"Adding new event: {new_event}")
+    save_events(events)
+    return jsonify(new_event), 201
+    
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
