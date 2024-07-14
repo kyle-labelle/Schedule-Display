@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './App.css';
 
-//Helper function to get the week's range given a date
+// Helper function to get the week's range given a date
 function getWeekRange(date) {
     const current = new Date(date);
-    const first = current.getDate() - current.getDay(); //First day of the week (Sunday)
-    const last = first + 6; //Last day of the week (Saturday)
+    const first = current.getDate() - current.getDay(); // First day of the week (Sunday)
+    const last = first + 6; // Last day of the week (Saturday)
 
     const firstDay = new Date(current.setDate(first));
     const lastDay = new Date(current.setDate(last));
@@ -20,29 +20,30 @@ function getWeekRange(date) {
 }
 
 function MainPage() {
+    const navigate = useNavigate();
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const today = new Date();
-    const currentFullDate = today.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });//State to track the current date for the week's range
+    const currentFullDate = today.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
     const [currentDate, setCurrentDate] = useState(new Date());
+    const [showPasswordPrompt, setShowPasswordPrompt] = useState(false);
+    const [password, setPassword] = useState('');
+    const [isPasswordValid, setIsPasswordValid] = useState(true);
 
-    //Calculate the current week's range based on the current date
+    // Calculate the current week's range based on the current date
     const week = getWeekRange(currentDate);
 
-    //Function to handle moving to the previous week
     const handlePreviousWeek = () => {
         const prevWeek = new Date(currentDate);
         prevWeek.setDate(currentDate.getDate() - 7);
         setCurrentDate(prevWeek);
     };
 
-    //Function to handle moving to the next week
     const handleNextWeek = () => {
         const nextWeek = new Date(currentDate);
         nextWeek.setDate(currentDate.getDate() + 7);
         setCurrentDate(nextWeek);
     };
 
-    //Check if a given day in the current week matches the actual current date
     const isCurrentDay = (dayIndex) => {
         const dayDate = new Date(week.firstDay);
         dayDate.setDate(week.firstDay.getDate() + dayIndex);
@@ -55,6 +56,33 @@ function MainPage() {
         return dayDate.getDate();
     };
 
+    const handleBackClick = () => {
+        navigate('/');
+    };
+
+    const handleEventPageClick = () => {
+        setShowPasswordPrompt(true);
+    };
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+    };
+
+    const handlePasswordSubmit = () => {
+        const correctPassword = 'your_password_here'; // Replace with the actual password
+        if (password === correctPassword) {
+            navigate('/event');
+        } else {
+            setIsPasswordValid(false);
+        }
+    };
+
+    const handleClosePopup = () => {
+        setShowPasswordPrompt(false);
+        setPassword('');
+        setIsPasswordValid(true);
+    };
+
     return (
         <div className="App">
             <header className="header">
@@ -63,18 +91,43 @@ function MainPage() {
                 <button className="right-button" onClick={handleNextWeek}>→</button>
             </header>
             <div className="grid-container">
-                {days.map((day, index) => (
-                    <Link to={`/day/${day}`} className={`grid-item ${isCurrentDay(index) ? 'current-day' : ''}`} key={day}>
-                        <span className="day-name">{day}</span>
-                        <span className="date-number">{getDateNumber(index)}</span>
-                    </Link>
-                ))}
-                <Link to="/event" className="grid-item">
+                {days.map((day, index) => {
+                    const dayDate = new Date(week.firstDay);
+                    dayDate.setDate(week.firstDay.getDate() + index);
+                    return (
+                        <Link
+                            to={`/day/${day}`}
+                            state={{ date: dayDate.toISOString() }}
+                            className={`grid-item ${isCurrentDay(index) ? 'current-day' : ''}`}
+                            key={day}
+                        >
+                            <span className="day-name">{day}</span>
+                            <span className="date-number">{getDateNumber(index)}</span>
+                        </Link>
+                    );
+                })}
+                <div className="grid-item" onClick={handleEventPageClick}>
                     <span>Event Page</span>
-                </Link>
+                </div>
             </div>
+            {showPasswordPrompt && (
+                <div className="popup">
+                    <div className="popup-inner">
+                        <button className="close-button" onClick={handleClosePopup}>×</button>
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={handlePasswordChange}
+                            placeholder="Enter password"
+                        />
+                        <button onClick={handlePasswordSubmit}>Submit</button>
+                        {!isPasswordValid && <p>Incorrect password. Please try again.</p>}
+                    </div>
+                </div>
+            )}
             <footer className="footer">
                 <h2>Today is: {currentFullDate}</h2>
+                <button className="back-button" onClick={handleBackClick}>Back</button>
             </footer>
         </div>
     );
