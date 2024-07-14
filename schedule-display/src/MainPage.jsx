@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './App.css';
 
-//Helper function to get the week's range given a date
+// Helper function to get the week's range given a date
 function getWeekRange(date) {
     const current = new Date(date);
-    const first = current.getDate() - current.getDay(); //First day of the week (Sunday)
-    const last = first + 6; //Last day of the week (Saturday)
+    const first = current.getDate() - current.getDay(); // First day of the week (Sunday)
+    const last = first + 6; // Last day of the week (Saturday)
 
     const firstDay = new Date(current.setDate(first));
     const lastDay = new Date(current.setDate(last));
@@ -22,27 +22,27 @@ function getWeekRange(date) {
 function MainPage() {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const today = new Date();
-    const currentFullDate = today.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });//State to track the current date for the week's range
+    const currentFullDate = today.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }); // State to track the current date for the week's range
     const [currentDate, setCurrentDate] = useState(new Date());
 
-    //Calculate the current week's range based on the current date
+    // Calculate the current week's range based on the current date
     const week = getWeekRange(currentDate);
 
-    //Function to handle moving to the previous week
+    // Function to handle moving to the previous week
     const handlePreviousWeek = () => {
         const prevWeek = new Date(currentDate);
         prevWeek.setDate(currentDate.getDate() - 7);
         setCurrentDate(prevWeek);
     };
 
-    //Function to handle moving to the next week
+    // Function to handle moving to the next week
     const handleNextWeek = () => {
         const nextWeek = new Date(currentDate);
         nextWeek.setDate(currentDate.getDate() + 7);
         setCurrentDate(nextWeek);
     };
 
-    //Check if a given day in the current week matches the actual current date
+    // Check if a given day in the current week matches the actual current date
     const isCurrentDay = (dayIndex) => {
         const dayDate = new Date(week.firstDay);
         dayDate.setDate(week.firstDay.getDate() + dayIndex);
@@ -63,12 +63,21 @@ function MainPage() {
                 <button className="right-button" onClick={handleNextWeek}>→</button>
             </header>
             <div className="grid-container">
-                {days.map((day, index) => (
-                    <Link to={`/day/${day}`} className={`grid-item ${isCurrentDay(index) ? 'current-day' : ''}`} key={day}>
-                        <span className="day-name">{day}</span>
-                        <span className="date-number">{getDateNumber(index)}</span>
-                    </Link>
-                ))}
+                {days.map((day, index) => {
+                    const dayDate = new Date(week.firstDay);
+                    dayDate.setDate(week.firstDay.getDate() + index);
+                    return (
+                        <Link
+                            to={`/day/${day}`}
+                            state={{ date: dayDate.toISOString() }}
+                            className={`grid-item ${isCurrentDay(index) ? 'current-day' : ''}`}
+                            key={day}
+                        >
+                            <span className="day-name">{day}</span>
+                            <span className="date-number">{getDateNumber(index)}</span>
+                        </Link>
+                    );
+                })}
                 <Link to="/event" className="grid-item">
                     <span>Event Page</span>
                 </Link>
