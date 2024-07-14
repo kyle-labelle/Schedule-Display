@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './App.css';
 
 // Helper function to get the week's range given a date
@@ -20,29 +20,30 @@ function getWeekRange(date) {
 }
 
 function MainPage() {
+    const navigate = useNavigate();
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const today = new Date();
-    const currentFullDate = today.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }); // State to track the current date for the week's range
+    const currentFullDate = today.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
     const [currentDate, setCurrentDate] = useState(new Date());
+    const [showPasswordPrompt, setShowPasswordPrompt] = useState(false);
+    const [password, setPassword] = useState('');
+    const [isPasswordValid, setIsPasswordValid] = useState(true);
 
     // Calculate the current week's range based on the current date
     const week = getWeekRange(currentDate);
 
-    // Function to handle moving to the previous week
     const handlePreviousWeek = () => {
         const prevWeek = new Date(currentDate);
         prevWeek.setDate(currentDate.getDate() - 7);
         setCurrentDate(prevWeek);
     };
 
-    // Function to handle moving to the next week
     const handleNextWeek = () => {
         const nextWeek = new Date(currentDate);
         nextWeek.setDate(currentDate.getDate() + 7);
         setCurrentDate(nextWeek);
     };
 
-    // Check if a given day in the current week matches the actual current date
     const isCurrentDay = (dayIndex) => {
         const dayDate = new Date(week.firstDay);
         dayDate.setDate(week.firstDay.getDate() + dayIndex);
@@ -53,6 +54,33 @@ function MainPage() {
         const dayDate = new Date(week.firstDay);
         dayDate.setDate(week.firstDay.getDate() + dayIndex);
         return dayDate.getDate();
+    };
+
+    const handleBackClick = () => {
+        navigate('/');
+    };
+
+    const handleEventPageClick = () => {
+        setShowPasswordPrompt(true);
+    };
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+    };
+
+    const handlePasswordSubmit = () => {
+        const correctPassword = 'your_password_here'; // Replace with the actual password
+        if (password === correctPassword) {
+            navigate('/event');
+        } else {
+            setIsPasswordValid(false);
+        }
+    };
+
+    const handleClosePopup = () => {
+        setShowPasswordPrompt(false);
+        setPassword('');
+        setIsPasswordValid(true);
     };
 
     return (
@@ -78,12 +106,28 @@ function MainPage() {
                         </Link>
                     );
                 })}
-                <Link to="/event" className="grid-item">
+                <div className="grid-item" onClick={handleEventPageClick}>
                     <span>Event Page</span>
-                </Link>
+                </div>
             </div>
+            {showPasswordPrompt && (
+                <div className="popup">
+                    <div className="popup-inner">
+                        <button className="close-button" onClick={handleClosePopup}>×</button>
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={handlePasswordChange}
+                            placeholder="Enter password"
+                        />
+                        <button onClick={handlePasswordSubmit}>Submit</button>
+                        {!isPasswordValid && <p>Incorrect password. Please try again.</p>}
+                    </div>
+                </div>
+            )}
             <footer className="footer">
                 <h2>Today is: {currentFullDate}</h2>
+                <button className="back-button" onClick={handleBackClick}>Back</button>
             </footer>
         </div>
     );
