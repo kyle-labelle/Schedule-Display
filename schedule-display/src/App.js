@@ -1,13 +1,14 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import DailyPage from './DailyPage';
 import MainPage from './MainPage';
 import StaffPage from './StaffPage';
 import HomePage from './HomePage';
 import EventPage from './EventPage';
+import SettingsPage from './SettingsPage';
 
-function App() { //TODO: Uncomment and make this redirect from 'Open Calendar'
+function App() {
   return (
     <Router>
       <Routes>
@@ -16,9 +17,10 @@ function App() { //TODO: Uncomment and make this redirect from 'Open Calendar'
         <Route path="/day/:day" element={<DailyPage />} />
         <Route path="/staff" element={<StaffPage />} />
         <Route path="/event" element={<EventPage />} />
-        
+        <Route path="/settings" element={<SettingsPage />} />
       </Routes>
     </Router>
   );
 }
+
 export default App;

@@ -1,3 +1,25 @@
+:root {
+  --primary-color: #007bff;
+  --primary-hover-color: #0056b3;
+  --secondary-color: #fc403d;
+  --secondary-hover-color: #d33731;
+  --highlight-color: green;
+  --highlight-hover-color: darkgreen;
+  --text-color: #333;
+  --background-color: #fff;
+}
+
+.colorblind-friendly {
+  --primary-color: #ff6347; /* Tomato */
+  --primary-hover-color: #e55342;
+  --secondary-color: #ff1493; /* Deep Pink */
+  --secondary-hover-color: #e01080;
+  --highlight-color: #ff4500; /* Orange Red */
+  --highlight-hover-color: #e03d00;
+  --text-color: #000;
+  --background-color: #fafafa;
+}
+
 .App {
   display: flex;
   flex-direction: column;
@@ -13,7 +35,7 @@
   align-items: center;
   width: 90%;
   padding: 10px;
-  border-bottom: 2px 
+  border-bottom: 2px solid var(--text-color);
 }
 
 .header-text {
@@ -21,7 +43,7 @@
   text-align: center;
   margin: 0;
   font-size: 1.5em;
-  color: #333;
+  color: var(--text-color);
 }
 
 .left-button,
@@ -33,7 +55,7 @@
   justify-content: center;
   text-decoration: none;
   align-items: center;
-  background-color: #fc403d;
+  background-color: var(--secondary-color);
   color: white;
   border: none;
   cursor: pointer;
@@ -44,7 +66,7 @@
 
 .left-button:hover,
 .right-button:hover {
-  background-color: #d33731;
+  background-color: var(--secondary-hover-color);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -64,7 +86,7 @@
   align-items: center;
   padding: 1em;
   font-size: 5em;
-  background-color: #007bff;
+  background-color: var(--primary-color);
   color: white;
   text-decoration: none;
   border-radius: 8px;
@@ -72,7 +94,7 @@
 }
 
 .wide-grid-item:hover {
-  background-color: #0056b3;
+  background-color: var(--primary-hover-color);
 }
 
 .grid-container {
@@ -91,7 +113,7 @@
   align-items: center;
   padding: 0em;
   font-size: 4em;
-  background-color: #007bff;
+  background-color: var(--primary-color);
   color: white;
   text-decoration: none;
   border-radius: 8px;
@@ -99,16 +121,16 @@
 }
 
 .grid-item:hover {
-  background-color: #0056b3;
+  background-color: var(--primary-hover-color);
 }
 
 .current-day {
-  background-color: green;
+  background-color: var(--highlight-color);
   transition: background-color 0.3s ease;
 }
 
 .current-day:hover {
-  background-color: darkgreen;
+  background-color: var(--highlight-hover-color);
 }
 
 .day-name {
@@ -117,4 +139,44 @@
 
 .date-number {
   font-size: 1.5em;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+  display: none;
+}
+
+.custom-checkbox {
+  width: 1.5em;
+  height: 1.5em;
+  background-color: white;
+  border: 2px solid var(--text-color);
+  border-radius: 4px;
+  display: inline-block;
+  margin-right: 0.5em;
+  position: relative;
+}
+
+.custom-checkbox::after {
+  content: '';
+  width: 0.5em;
+  height: 1em;
+  border: solid var(--text-color);
+  border-width: 0 0.2em 0.2em 0;
+  position: absolute;
+  top: 0.1em;
+  left: 0.4em;
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.checkbox-label input[type="checkbox"]:checked + .custom-checkbox::after {
+  opacity: 1;
 }
