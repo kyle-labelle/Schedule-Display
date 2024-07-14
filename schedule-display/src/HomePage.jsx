@@ -14,8 +14,8 @@ function HomePage() {
           <Link to="/staff" className="wide-grid-item">
             <span>Staff Page</span>
           </Link>
-          <Link to="/SoftwareInfo" className="wide-grid-item">
-            <span>Software Information</span>
+          <Link to="/settings" className="wide-grid-item">
+            <span>Settings</span>
           </Link>
         </div>
       </div>
