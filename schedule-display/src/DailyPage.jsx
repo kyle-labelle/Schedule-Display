@@ -18,7 +18,6 @@ function DailyPage() {
       </div>
       <div className="right-container">
         <h1>Staff<br />(Names, Photos, Hours)</h1>
-        
       </div>
       <button className="back-button" onClick={handleBackClick}>Back</button>
     </div>

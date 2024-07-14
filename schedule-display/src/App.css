@@ -9,13 +9,46 @@
   --background-color: #fff;
 }
 
-.colorblind-friendly {
-  --primary-color: #ff6347; /* Tomato */
+.red-theme {
+  --primary-color: #ff6347;
   --primary-hover-color: #e55342;
-  --secondary-color: #ff1493; /* Deep Pink */
-  --secondary-hover-color: #e01080;
-  --highlight-color: #ff4500; /* Orange Red */
-  --highlight-hover-color: #e03d00;
+  --secondary-color: #ff4500;
+  --secondary-hover-color: #e03d00;
+  --highlight-color: #dc143c;
+  --highlight-hover-color: #b22222;
+  --text-color: #000;
+  --background-color: #fafafa;
+}
+
+.protanopia {
+  --primary-color: #3366cc;
+  --primary-hover-color: #254994;
+  --secondary-color: #cc3366;
+  --secondary-hover-color: #b22e5a;
+  --highlight-color: #669933;
+  --highlight-hover-color: #557722;
+  --text-color: #000;
+  --background-color: #fafafa;
+}
+
+.deuteranopia {
+  --primary-color: #ffcc00;
+  --primary-hover-color: #e6b800;
+  --secondary-color: #3366cc;
+  --secondary-hover-color: #254994;
+  --highlight-color: #cc3300;
+  --highlight-hover-color: #b22e00;
+  --text-color: #000;
+  --background-color: #fafafa;
+}
+
+.tritanopia {
+  --primary-color: #ffcc00;
+  --primary-hover-color: #e6b800;
+  --secondary-color: #66cc99;
+  --secondary-hover-color: #55a377;
+  --highlight-color: #3366cc;
+  --highlight-hover-color: #254994;
   --text-color: #000;
   --background-color: #fafafa;
 }
@@ -27,6 +60,7 @@
   align-items: center;
   height: 100vh;
   margin: 0;
+  background-color: var(--background-color);
 }
 
 .header {
@@ -141,42 +175,16 @@
   font-size: 1.5em;
 }
 
-.checkbox-label {
+.dropdown-label {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   font-size: 1em;
   cursor: pointer;
 }
 
-.checkbox-label input[type="checkbox"] {
-  display: none;
-}
-
-.custom-checkbox {
-  width: 1.5em;
-  height: 1.5em;
-  background-color: white;
-  border: 2px solid var(--text-color);
-  border-radius: 4px;
-  display: inline-block;
-  margin-right: 0.5em;
-  position: relative;
-}
-
-.custom-checkbox::after {
-  content: '';
-  width: 0.5em;
-  height: 1em;
-  border: solid var(--text-color);
-  border-width: 0 0.2em 0.2em 0;
-  position: absolute;
-  top: 0.1em;
-  left: 0.4em;
-  transform: rotate(45deg);
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-
-.checkbox-label input[type="checkbox"]:checked + .custom-checkbox::after {
-  opacity: 1;
+.dropdown {
+  font-size: 1em;
+  padding: 0.5em;
+  margin-top: 0.5em;
 }

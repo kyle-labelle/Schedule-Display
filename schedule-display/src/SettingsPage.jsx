@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './App.css';
 
 const SettingsPage = () => {
-  const [colorblindMode, setColorblindMode] = useState(() => {
-    return JSON.parse(localStorage.getItem('colorblindMode')) || false;
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('theme') || 'default';
   });
 
-  useEffect(() => {
-    if (colorblindMode) {
-      document.documentElement.classList.add('colorblind-friendly');
-    } else {
-      document.documentElement.classList.remove('colorblind-friendly');
-    }
-    localStorage.setItem('colorblindMode', JSON.stringify(colorblindMode));
-  }, [colorblindMode]);
+  const navigate = useNavigate();
 
-  const handleToggle = () => {
-    setColorblindMode(!colorblindMode);
+  const handleBackClick = () => {
+    navigate('/');
+  };
+
+  useEffect(() => {
+    document.documentElement.className = theme;
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const handleThemeChange = (event) => {
+    setTheme(event.target.value);
   };
 
   return (
@@ -26,13 +29,19 @@ const SettingsPage = () => {
       </header>
       <div className="wide-grid-container">
         <div className="wide-grid-item">
-          <label className="checkbox-label">
-            <input type="checkbox" checked={colorblindMode} onChange={handleToggle} />
-            <span className="custom-checkbox"></span>
-            Colorblind Mode
+          <label className="dropdown-label">
+            Color/Color Blindness Themes
+            <select value={theme} onChange={handleThemeChange} className="dropdown">
+              <option value="default">Default</option>
+              <option value="red-theme">Red Theme</option>
+              <option value="protanopia">Protanopia</option>
+              <option value="deuteranopia">Deuteranopia</option>
+              <option value="tritanopia">Tritanopia</option>
+            </select>
           </label>
         </div>
       </div>
+      <button className="back-button" onClick={handleBackClick}>Back</button>
     </div>
   );
 };
