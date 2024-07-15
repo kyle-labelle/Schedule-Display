@@ -1,3 +1,4 @@
+/* App.css */
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap');
 
 :root {
@@ -11,7 +12,6 @@
   --background-color: #fff;
 
   --primary-font: 'Arial', sans-serif; /* Default font */
-
   --font-size-small: 0.7em;
   --font-size-medium: 1em;
   --font-size-large: 1.2em;
@@ -20,16 +20,6 @@
 
 .dyslexia-friendly {
   --primary-font: 'Lexend', sans-serif;
-  font-size: var(--font-size);
-}
-
-.header-text, .dropdown, .wide-grid-item {
-  font-size: inherit; 
-}
-
-body {
-  font-family: var(--primary-font);
-  font-size: var(--font-size);
 }
 
 .red-theme {
@@ -66,15 +56,22 @@ body {
 }
 
 .tritanopia {
-  --primary-color: #ffcc00;
-  --primary-hover-color: #e6b800;
-  --secondary-color: #66cc99;
-  --secondary-hover-color: #55a377;
-  --highlight-color: #3366cc;
-  --highlight-hover-color: #254994;
+  --primary-color: #d62d2d;
+  --primary-hover-color: #b22626; /* slightly darker red */
+  --secondary-color: #00939e;
+  --secondary-hover-color: #007a82; /* slightly darker cyan */
+  --highlight-color: #164b51;
+  --highlight-hover-color: #123c41; /* slightly darker teal */
   --text-color: #000;
   --background-color: #fafafa;
 }
+
+/* Other global styles */
+body {
+  font-family: var(--primary-font);
+  font-size: var(--font-size);
+}
+
 
 .App {
   display: flex;
@@ -86,6 +83,10 @@ body {
   background-color: var(--background-color);
 }
 
+.dropdown, .wide-grid-item {
+  font-size: inherit; 
+}
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -95,11 +96,19 @@ body {
   border-bottom: 2px solid var(--text-color);
 }
 
+
 .header-text {
   flex-grow: 1;
   text-align: center;
   margin: 0;
   font-size: 1.5em;
+  color: var(--text-color);
+}
+
+.settings-header-text {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 5em;
   color: var(--text-color);
 }
 
@@ -128,13 +137,13 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+
 .wide-grid-container {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   grid-template-rows: repeat(4, 1fr);
   gap: 10px;
-  width: 60%;
-  height: 80%;
+  width: 100%;
 }
 
 .wide-grid-item {
@@ -142,7 +151,7 @@ body {
   justify-content: center;
   align-items: center;
   padding: 1em;
-  font-size: 5em;
+  font-size: 3em;
   background-color: var(--primary-color);
   color: white;
   text-decoration: none;
@@ -252,4 +261,28 @@ body {
 .popup-inner button {
   padding: 10px 20px;
   cursor: pointer;
+}
+
+.settings-page {
+  padding-top: 20vh;
+}
+
+.settings-back-button {
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;  
+  height: 60px;  
+  padding: 10px 20px;  
+}
+
+.back-button:hover {
+  background-color: var(--secondary-hover-color);
 }

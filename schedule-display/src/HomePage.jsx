@@ -5,8 +5,6 @@ import './App.css';
 function HomePage() {
     return (
       <div className="App">
-        <header className="header">
-        </header>
         <div className="wide-grid-container">
           <Link to="/MainPage" className="wide-grid-item">
             <span>Open Calendar</span>

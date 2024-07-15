@@ -1,3 +1,4 @@
+// SettingsPage.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './App.css';
@@ -71,9 +72,9 @@ const SettingsPage = () => {
 
   return (
     <div className="App">
-      <header className="header">
-        <h1 className="header-text">Settings</h1>
-      </header>
+      <div className="settings-page">
+      <h1 className="settings-header-text">Settings</h1>
+
       <div className="wide-grid-container">
         <div className="wide-grid-item">
           <label className="dropdown-label">
@@ -104,8 +105,9 @@ const SettingsPage = () => {
             </select>
           </label>
         </div>
+        <button className="settings-back-button" onClick={handleBackClick}>Back</button>
       </div>
-      <button className="back-button" onClick={handleBackClick}>Back</button>
+      </div>
     </div>
   );
 };

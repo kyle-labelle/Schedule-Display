@@ -107,7 +107,7 @@ function MainPage() {
                     );
                 })}
                 <div className="grid-item" onClick={handleEventPageClick}>
-                    <span>Event Page</span>
+                    <span>Create<br/>Event</span>
                 </div>
             </div>
             {showPasswordPrompt && (

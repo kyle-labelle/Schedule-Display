@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Datetime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
 import './EventPage.css';
+import './App.css';
 
 function EventPage() {
   const navigate = useNavigate();

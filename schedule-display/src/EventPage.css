@@ -1,25 +1,28 @@
 .event-page {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
   height: 100vh;
   padding: 20px;
   box-sizing: border-box;
+  position: relative;
+  background-color: var(--background-color); /* Use the CSS variable */
 }
 
 .event-box {
-  background-color: #007bff;
+  background-color: var(--primary-color);
   color: white;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: center; /* Center horizontally */
+  justify-content: flex-start; /* Align from the top */
   padding: 20px;
   box-sizing: border-box;
   border-radius: 5px;
   width: 45%;
   margin: 10px;
-  height: 80vh; /* Ensures both boxes have the same height */
+  min-height: 80vh;
 }
 
 .event-form {
@@ -50,10 +53,14 @@ label {
 input[type="text"], 
 textarea, 
 select {
-  width: 100%;
+  max-width: 100%;
   padding: 8px;
   border-radius: 5px;
   border: 1px solid #ccc;
+}
+
+textarea, input[type="text"] {
+  width: 97%;
 }
 
 textarea {
@@ -62,7 +69,7 @@ textarea {
 
 button[type="submit"] {
   align-self: flex-end;
-  background-color: #28a745;
+  background-color: var(--secondary-color);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -73,14 +80,14 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-  background-color: #218838;
+  background-color: var(--secondary-hover-color);
 }
 
 .back-button {
   position: absolute;
   bottom: 20px;
   right: 20px;
-  background-color: #fc403d;
+  background-color: var(--secondary-color);
   color: white;
   border: none;
   font-size: 1.5em;
@@ -96,7 +103,7 @@ button[type="submit"]:hover {
 }
 
 .back-button:hover {
-  background-color: #b02623;
+  background-color: var(--secondary-hover-color);
 }
 
 /* Custom styles for react-datetime */
@@ -117,18 +124,18 @@ button[type="submit"]:hover {
 }
 
 .rdt input {
-  width: 100%;
+  width: 90%;
   padding: 8px;
   border-radius: 5px;
   border: 1px solid #ccc;
 }
 
 .rdtDay:hover, .rdtDay:focus, .rdtDay:active {
-  background-color: #007bff;
+  background-color: var(--primary-color);
   color: white;
 }
 
 .rdtActive {
-  background-color: #007bff;
+  background-color: var(--primary-color);
   color: white;
 }
