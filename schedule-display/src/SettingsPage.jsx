@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import './App.css';
 
 const SettingsPage = () => {
-  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'default');
-  const [textSize, setTextSize] = useState(() => localStorage.getItem('textSize') || 'medium');
-  const [dyslexicFont, setDyslexicFont] = useState(() => JSON.parse(localStorage.getItem('dyslexicFont')) || false);
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('theme') || 'default';
+  });
 
   const navigate = useNavigate();
 
@@ -15,23 +15,26 @@ const SettingsPage = () => {
   }, [theme]);
 
   useEffect(() => {
-    document.documentElement.style.fontSize = textSize;
-    localStorage.setItem('textSize', textSize);
-  }, [textSize]);
+    if (colorblindMode) {
+      document.documentElement.classList.add('colorblind-friendly');
+    } else {
+      document.documentElement.classList.remove('colorblind-friendly');
+    }
+    localStorage.setItem('colorblindMode', JSON.stringify(colorblindMode));
+  }, [colorblindMode]);
 
   useEffect(() => {
-    if (dyslexicFont) {
-      document.documentElement.classList.add('dyslexic-font');
+    if (dyslexiaMode) {
+      document.documentElement.classList.add('dyslexia-friendly');
     } else {
-      document.documentElement.classList.remove('dyslexic-font');
+      document.documentElement.classList.remove('dyslexia-friendly');
     }
-    localStorage.setItem('dyslexicFont', JSON.stringify(dyslexicFont));
-  }, [dyslexicFont]);
+    localStorage.setItem('dyslexiaMode', JSON.stringify(dyslexiaMode));
+  }, [dyslexiaMode]);
 
-  const handleThemeChange = (event) => setTheme(event.target.value);
-  const handleTextSizeChange = (event) => setTextSize(event.target.value);
-  const handleDyslexicFontChange = () => setDyslexicFont(!dyslexicFont);
-  const handleBackClick = () => navigate('/');
+  const handleThemeChange = (event) => {
+    setTheme(event.target.value);
+  };
 
   return (
     <div className="App">
@@ -45,16 +48,6 @@ const SettingsPage = () => {
               <option value="protanopia">Protanopia</option>
               <option value="deuteranopia">Deuteranopia</option>
               <option value="tritanopia">Tritanopia</option>
-            </select>
-          </label>
-        </div>
-        <div className="wide-grid-item">
-          <label className="dropdown-label">
-            Text Size
-            <select value={textSize} onChange={handleTextSizeChange} className="dropdown">
-              <option value="small">Small</option>
-              <option value="medium">Medium</option>
-              <option value="large">Large</option>
             </select>
           </label>
         </div>
