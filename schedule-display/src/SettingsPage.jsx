@@ -3,30 +3,38 @@ import { useNavigate } from 'react-router-dom';
 import './App.css';
 
 const SettingsPage = () => {
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('theme') || 'default';
-  });
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'default');
+  const [textSize, setTextSize] = useState(() => localStorage.getItem('textSize') || 'medium');
+  const [dyslexicFont, setDyslexicFont] = useState(() => JSON.parse(localStorage.getItem('dyslexicFont')) || false);
 
   const navigate = useNavigate();
-
-  const handleBackClick = () => {
-    navigate('/');
-  };
 
   useEffect(() => {
     document.documentElement.className = theme;
     localStorage.setItem('theme', theme);
   }, [theme]);
 
-  const handleThemeChange = (event) => {
-    setTheme(event.target.value);
-  };
+  useEffect(() => {
+    document.documentElement.style.fontSize = textSize;
+    localStorage.setItem('textSize', textSize);
+  }, [textSize]);
+
+  useEffect(() => {
+    if (dyslexicFont) {
+      document.documentElement.classList.add('dyslexic-font');
+    } else {
+      document.documentElement.classList.remove('dyslexic-font');
+    }
+    localStorage.setItem('dyslexicFont', JSON.stringify(dyslexicFont));
+  }, [dyslexicFont]);
+
+  const handleThemeChange = (event) => setTheme(event.target.value);
+  const handleTextSizeChange = (event) => setTextSize(event.target.value);
+  const handleDyslexicFontChange = () => setDyslexicFont(!dyslexicFont);
+  const handleBackClick = () => navigate('/');
 
   return (
     <div className="App">
-      <header className="header">
-        <h1 className="header-text">Settings</h1>
-      </header>
       <div className="wide-grid-container">
         <div className="wide-grid-item">
           <label className="dropdown-label">
@@ -37,6 +45,16 @@ const SettingsPage = () => {
               <option value="protanopia">Protanopia</option>
               <option value="deuteranopia">Deuteranopia</option>
               <option value="tritanopia">Tritanopia</option>
+            </select>
+          </label>
+        </div>
+        <div className="wide-grid-item">
+          <label className="dropdown-label">
+            Text Size
+            <select value={textSize} onChange={handleTextSizeChange} className="dropdown">
+              <option value="small">Small</option>
+              <option value="medium">Medium</option>
+              <option value="large">Large</option>
             </select>
           </label>
         </div>
