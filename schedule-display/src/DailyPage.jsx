@@ -66,53 +66,19 @@ function DailyPage() {
         };
     });
 
-    return (
-        <div className="daily-page">
-            <div className="left-container">
-                <h1>{day}'s Schedule<br />(Events)</h1>
-                <p>{date}</p>
-                <ul>
-                    {filteredEvents.length > 0 ? (
-                        filteredEvents.map((event, index) => (
-                            <li key={index} className="event-item">
-                                <span className="event-name">{event.name} - {event.description} - {new Date(event.datetime).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</span>
-                            </li>
-                        ))
-                    ) : (
-                        <li>No events for this date.</li>
-                    )}
-                </ul>
-            </div>
-            <div className="right-container">
-                <h1>Staff<br />(Names, Photos, Hours)</h1>
-                <ul>
-                    {enrichedShifts.length > 0 ? (
-                        enrichedShifts.map((shift, index) => (
-                            <li key={index} className="shift-item">
-                                {shift.photo && (
-                                    <img 
-                                        src={`http://localhost:5000/uploads/${shift.photo}`} 
-                                        alt={`Profile of ${shift.name}`} 
-                                        className="staff-photo"
-                                        style={{ width: '80px', height: '100px' }} 
-                                    />
-                                )}
-                                <span className="shift-name">{shift.name}</span>
-                                <span className="shift-position">{shift.position}</span>
-                                <span className="shift-time">
-                                    {new Date(shift.startDatetime).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })} - 
-                                    {new Date(shift.endDatetime).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
-                                </span>
-                            </li>
-                        ))
-                    ) : (
-                        <li>No shifts for this date.</li>
-                    )}
-                </ul>
-            </div>
-            <button className="back-button" onClick={handleBackClick}>Back</button>
-        </div>
-    );
+  return (
+    <div className="daily-page">
+      <div className="left-container">
+        <h1>{day}'s Schedule<br />(Events)</h1>
+        
+      </div>
+      <div className="right-container">
+        <h1>Staff<br />(Names, Photos, Hours)</h1>
+        
+      </div>
+      <button className="back-button" onClick={handleBackClick}>Back</button>
+    </div>
+  );
 }
 
 export default DailyPage;
