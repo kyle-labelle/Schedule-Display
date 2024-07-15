@@ -69,7 +69,7 @@ function MainPage() {
     };
 
     const handlePasswordSubmit = () => {
-        const correctPassword = 'your_password_here'; // Replace with the actual password
+        const correctPassword = 'test';
         if (password === correctPassword) {
             navigate('/event');
         } else {
