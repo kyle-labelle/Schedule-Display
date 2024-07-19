@@ -72,7 +72,6 @@ body {
   font-size: var(--font-size);
 }
 
-
 .App {
   display: flex;
   flex-direction: column;
@@ -95,7 +94,6 @@ body {
   padding: 10px;
   border-bottom: 2px solid var(--text-color);
 }
-
 
 .header-text {
   flex-grow: 1;
@@ -137,13 +135,13 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-
 .wide-grid-container {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   grid-template-rows: repeat(4, 1fr);
   gap: 10px;
   width: 100%;
+  overflow-y: auto; /* Enable scrolling if content overflows */
 }
 
 .wide-grid-item {
@@ -264,7 +262,12 @@ body {
 }
 
 .settings-page {
-  padding-top: 20vh;
+  position: absolute;
+  top: 10vh; /* Start 10% from the top of the viewport height */
+  width: 100%;
+  height: 90vh; /* Occupy the remaining 90% of the viewport height */
+  overflow-y: auto; /* Enable scrolling if content overflows */
+  padding-bottom: 20px; /* Add padding to the bottom */
 }
 
 .settings-back-button {
@@ -278,11 +281,40 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;  
-  height: 60px;  
-  padding: 10px 20px;  
+  width: 100%;
+  height: 60px;
+  padding: 10px 20px;
 }
 
 .back-button:hover {
   background-color: var(--secondary-hover-color);
+}
+
+.custom-checkbox {
+  width: 1em; /* Same size as font */
+  height: 1em; /* Same size as font */
+  margin-right: 0.5em;
+  background-color: white;
+  border: 1px solid var(--text-color);
+  display: inline-block;
+  cursor: pointer;
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="checkbox"] + .custom-checkbox {
+  position: relative;
+}
+
+input[type="checkbox"]:checked + .custom-checkbox::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.6em; /* Smaller than the checkbox */
+  height: 0.6em; /* Smaller than the checkbox */
+  background-color: var(--primary-color);
+  transform: translate(-50%, -50%);
 }

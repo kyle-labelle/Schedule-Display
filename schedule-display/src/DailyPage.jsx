@@ -3,6 +3,12 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import './App.css';
 import './DailyPage.css';
 
+// Import images
+import bear from './assets/bear.png';
+import cat from './assets/cat.png';
+import elephant from './assets/elephant.png';
+import lamb from './assets/lamb.webp';
+import goat from './assets/goat.webp';
 
 function DailyPage() {
     const { day } = useParams();
@@ -12,6 +18,10 @@ function DailyPage() {
     const [events, setEvents] = useState([]);
     const [shifts, setShifts] = useState([]);
     const [staffMembers, setStaffMembers] = useState([]);
+    const [randomImage, setRandomImage] = useState(null);
+
+    // Array of image imports
+    const images = [bear, cat, elephant, lamb, goat];
 
     useEffect(() => {
         fetch('http://localhost:5000/event')
@@ -32,6 +42,12 @@ function DailyPage() {
             .then(response => response.json())
             .then(data => setStaffMembers(data))
             .catch(error => console.error('Error fetching staff members:', error));
+    }, []);
+
+    useEffect(() => {
+        // Select a random image from the array
+        const randomIndex = Math.floor(Math.random() * images.length);
+        setRandomImage(images[randomIndex]);
     }, []);
 
     const handleBackClick = () => {
@@ -84,6 +100,9 @@ function DailyPage() {
                         <li>No events for this date.</li>
                     )}
                 </ul>
+                {randomImage && (
+                    <img src={randomImage} alt="Random animal" className="random-image" />
+                )}
             </div>
             <div className="right-container">
                 <h1>Staff Worker Shifts</h1>
@@ -100,7 +119,6 @@ function DailyPage() {
                                     />
                                 )}
                                 <span className="shift-name">{shift.name}</span>
-                                <span className="shift-position">{shift.position}</span>
                                 <span className="shift-time">
                                     {new Date(shift.startDatetime).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })} - 
                                     {new Date(shift.endDatetime).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
