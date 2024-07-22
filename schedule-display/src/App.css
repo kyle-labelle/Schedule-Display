@@ -57,11 +57,11 @@
 
 .tritanopia {
   --primary-color: #d62d2d;
-  --primary-hover-color: #b22626; /* slightly darker red */
+  --primary-hover-color: #b22626; 
   --secondary-color: #00939e;
-  --secondary-hover-color: #007a82; /* slightly darker cyan */
+  --secondary-hover-color: #007a82;
   --highlight-color: #164b51;
-  --highlight-hover-color: #123c41; /* slightly darker teal */
+  --highlight-hover-color: #123c41; 
   --text-color: #000;
   --background-color: #fafafa;
 }

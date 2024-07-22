@@ -9,6 +9,8 @@ import cat from './assets/cat.png';
 import elephant from './assets/elephant.png';
 import lamb from './assets/lamb.webp';
 import goat from './assets/goat.webp';
+import puppy from './assets/puppy.png';
+import teddy from './assets/teddy.png';
 
 function DailyPage() {
     const { day } = useParams();
@@ -21,7 +23,7 @@ function DailyPage() {
     const [randomImage, setRandomImage] = useState(null);
 
     // Array of image imports
-    const images = [bear, cat, elephant, lamb, goat];
+    const images = [bear, cat, elephant, lamb, goat, puppy, teddy];
 
     useEffect(() => {
         fetch('http://localhost:5000/event')

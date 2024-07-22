@@ -69,13 +69,13 @@ function MainPage() {
     };
 
     const handlePasswordSubmit = () => {
-        const correctPassword = 'test';
-        if (password === correctPassword) {
+        const correctPassword = 'Ottawa';
+        if (password.toLowerCase() === correctPassword.toLowerCase()) {
             navigate('/event');
         } else {
             setIsPasswordValid(false);
         }
-    };
+    };    
 
     const handleClosePopup = () => {
         setShowPasswordPrompt(false);
@@ -118,7 +118,7 @@ function MainPage() {
                             type="password"
                             value={password}
                             onChange={handlePasswordChange}
-                            placeholder="Enter password"
+                            placeholder="Enter password. Hint: Capital of Canada"
                         />
                         <button onClick={handlePasswordSubmit}>Submit</button>
                         {!isPasswordValid && <p>Incorrect password. Please try again.</p>}
