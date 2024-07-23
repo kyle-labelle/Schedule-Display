@@ -52,6 +52,12 @@ function DailyPage() {
         setRandomImage(images[randomIndex]);
     }, []);
 
+    useEffect(() => {
+        // Select a random image from the array
+        const randomIndex = Math.floor(Math.random() * images.length);
+        setRandomImage(images[randomIndex]);
+    }, []);
+
     const handleBackClick = () => {
         navigate('/MainPage');
     };
@@ -105,6 +111,9 @@ function DailyPage() {
                 {randomImage && (
                     <img src={randomImage} alt="Random animal" className="random-image" />
                 )}
+                {randomImage && (
+                    <img src={randomImage} alt="Random animal" className="random-image" />
+                )}
             </div>
             <div className="right-container">
                 <h1>Staff Worker Shifts</h1>
@@ -138,3 +147,4 @@ function DailyPage() {
 }
 
 export default DailyPage;
+
