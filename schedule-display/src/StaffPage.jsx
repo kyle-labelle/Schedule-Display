@@ -6,6 +6,7 @@ function StaffPage() {
   const navigate = useNavigate();
   const [staffMembers, setStaffMembers] = useState([]);
   const [newStaff, setNewStaff] = useState({ name: '', position: '', photo: null });
+  const [confirmDelete, setConfirmDelete] = useState({ show: false, name: '' });
 
   useEffect(() => {
     fetch('http://localhost:5000/staff')
@@ -50,6 +51,30 @@ function StaffPage() {
       .catch(error => console.error('Error adding staff member:', error));
   };
 
+  const handleDelete = (name) => {
+    fetch(`http://localhost:5000/staff/${name}`, {
+      method: 'DELETE',
+    })
+      .then(response => response.json())
+      .then(data => {
+        setStaffMembers(prevState => prevState.filter(member => member.name !== name));
+      })
+      .catch(error => console.error('Error deleting staff member:', error));
+  };
+
+  const handleDeleteClick = (name) => {
+    setConfirmDelete({ show: true, name });
+  };
+
+  const handleConfirmDelete = () => {
+    handleDelete(confirmDelete.name);
+    setConfirmDelete({ show: false, name: '' });
+  };
+
+  const handleCancelDelete = () => {
+    setConfirmDelete({ show: false, name: '' });
+  };
+
   return (
     <div className="staff-page">
       <div className="left-container">
@@ -66,6 +91,7 @@ function StaffPage() {
                   style={{ width: '80px', height: '100px' }} 
                 />
               )}
+              <button className="delete-button" onClick={() => handleDeleteClick(staff.name)}>Delete</button>
             </li>
           ))}
         </ul>
@@ -109,7 +135,15 @@ function StaffPage() {
         </form>
       </div>
       <button className="back-button" onClick={handleBackClick}>Back</button>
-      <button className="event-page-button" onClick={handleEventPageClick}>Event Page</button>
+      {confirmDelete.show && (
+        <div className="popup">
+          <div className="popup-inner">
+            <p>Are you sure you want to delete {confirmDelete.name}?</p>
+            <button className="confirm-button" onClick={handleConfirmDelete}>Yes</button>
+            <button className="cancel-button" onClick={handleCancelDelete}>No</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

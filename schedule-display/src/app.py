@@ -3,6 +3,7 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import json
 import os
+import uuid
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -61,6 +62,14 @@ def add_staff():
     else:
         return jsonify({'error': 'File type not allowed'}), 400
 
+@app.route('/staff/<name>', methods=['DELETE'])
+def delete_staff(name):
+    global staff_members
+    staff_members = [member for member in staff_members if member['name'] != name]
+    save_staff_members(staff_members)
+    print(f"Deleted staff member with name: {name}")
+    return jsonify({'message': f'Staff member {name} deleted'}), 200
+
 # EVENTS
 def load_events():
     if os.path.exists(EVENT_DATA_FILE):
@@ -85,8 +94,9 @@ def add_event():
     name = request.form['name']
     description = request.form['description']
     datetime = request.form['datetime']
+    event_id = str(uuid.uuid4())
 
-    new_event = {'name': name, 'description': description, 'datetime': datetime}
+    new_event = {'id': event_id, 'name': name, 'description': description, 'datetime': datetime}
     events.append(new_event)
     print(f"Adding new event: {new_event}")
     save_events(events)
@@ -95,6 +105,14 @@ def add_event():
 @app.route('/event', methods=['GET'])
 def get_events():
     return jsonify(events)
+
+@app.route('/event/<id>', methods=['DELETE'])
+def delete_event(id):
+    global events
+    events = [event for event in events if event['id'] != id]
+    save_events(events)
+    print(f"Deleted event with id: {id}")
+    return jsonify({'message': f'Event {id} deleted'}), 200
 
 # SHIFTS
 def load_shifts():
@@ -120,8 +138,9 @@ def add_shift():
     name = request.form['name']
     start_datetime = request.form['startDatetime']
     end_datetime = request.form['endDatetime']
+    shift_id = str(uuid.uuid4())
 
-    new_shift = {'name': name, 'startDatetime': start_datetime, 'endDatetime': end_datetime}
+    new_shift = {'id': shift_id, 'name': name, 'startDatetime': start_datetime, 'endDatetime': end_datetime}
     shifts.append(new_shift)
     print(f"Adding new shift: {new_shift}")
     save_shifts(shifts)
@@ -130,6 +149,14 @@ def add_shift():
 @app.route('/shift', methods=['GET'])
 def get_shifts():
     return jsonify(shifts)
+
+@app.route('/shift/<id>', methods=['DELETE'])
+def delete_shift(id):
+    global shifts
+    shifts = [shift for shift in shifts if shift['id'] != id]
+    save_shifts(shifts)
+    print(f"Deleted shift with id: {id}")
+    return jsonify({'message': f'Shift {id} deleted'}), 200
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):

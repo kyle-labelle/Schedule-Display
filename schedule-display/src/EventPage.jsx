@@ -12,7 +12,8 @@ function EventPage() {
   const [eventDate, setEventDate] = useState(new Date());
   const [dropdownValue, setDropdownValue] = useState('');
   const [shiftStartDate, setShiftStartDate] = useState(new Date());
-  const [shiftEndDate, setShiftEndDate] = useState(new Date());
+  const [shiftStartTime, setShiftStartTime] = useState(new Date());
+  const [shiftEndTime, setShiftEndTime] = useState(new Date());
   const [showPopup, setShowPopup] = useState(false);
   const [staffMembers, setStaffMembers] = useState([]);
 
@@ -51,10 +52,32 @@ function EventPage() {
 
   const handleFormSubmit2 = (e) => {
     e.preventDefault();
+    const shiftStart = new Date(
+      shiftStartDate.getFullYear(),
+      shiftStartDate.getMonth(),
+      shiftStartDate.getDate(),
+      shiftStartTime.getHours(),
+      shiftStartTime.getMinutes(),
+      shiftStartTime.getSeconds()
+    );
+    const shiftEnd = new Date(
+      shiftStartDate.getFullYear(),
+      shiftStartDate.getMonth(),
+      shiftStartDate.getDate(),
+      shiftEndTime.getHours(),
+      shiftEndTime.getMinutes(),
+      shiftEndTime.getSeconds()
+    );
+
+    if (shiftEnd <= shiftStart) {
+      alert('Shift end time cannot be before or equal to shift start time.');
+      return;
+    }
+
     const formData = new FormData();
     formData.append('name', dropdownValue);
-    formData.append('startDatetime', shiftStartDate);
-    formData.append('endDatetime', shiftEndDate);
+    formData.append('startDatetime', shiftStart.toISOString());
+    formData.append('endDatetime', shiftEnd.toISOString());
 
     fetch('http://localhost:5000/shift', {
       method: 'POST',
@@ -64,12 +87,17 @@ function EventPage() {
       .then(data => {
         setDropdownValue('');
         setShiftStartDate(new Date());
-        setShiftEndDate(new Date());
+        setShiftStartTime(new Date());
+        setShiftEndTime(new Date());
         setShowPopup(true);
         setTimeout(() => setShowPopup(false), 3000);
       })
       .catch(error => console.error('Error adding Shift:', error));
   };
+
+  const yesterday = Datetime.moment().subtract(1, 'day');
+  const validEventDate = current => current.isAfter(yesterday);
+  const validShiftStartDate = current => current.isAfter(yesterday);
 
   return (
     <div className="event-page">
@@ -99,8 +127,9 @@ function EventPage() {
             <label htmlFor="eventDate">Event Date:</label>
             <Datetime
               value={eventDate}
-              onChange={(date) => setEventDate(date)}
+              onChange={(date) => setEventDate(new Date(date))}
               inputProps={{ placeholder: 'Select Date and Time' }}
+              isValidDate={validEventDate}
               required
             />
           </div>
@@ -126,22 +155,35 @@ function EventPage() {
               ))}
             </select>
           </div>
+          <div className="form-group">
+            <label htmlFor="shiftStartDate">Shift Date:</label>
+            <Datetime
+              value={shiftStartDate}
+              onChange={(date) => setShiftStartDate(new Date(date))}
+              timeFormat={false}
+              inputProps={{ placeholder: 'Select Start Date' }}
+              isValidDate={validShiftStartDate}
+              required
+            />
+          </div>
           <div className="form-group-horizontal">
             <div className="form-group">
-              <label htmlFor="shiftStartDate">Shift Start Date:</label>
+              <label htmlFor="shiftStartTime">Shift Start Time:</label>
               <Datetime
-                value={shiftStartDate}
-                onChange={(date) => setShiftStartDate(date)}
-                inputProps={{ placeholder: 'Select Start Date and Time' }}
+                value={shiftStartTime}
+                onChange={(time) => setShiftStartTime(new Date(time))}
+                dateFormat={false}
+                inputProps={{ placeholder: 'Select Start Time' }}
                 required
               />
             </div>
             <div className="form-group">
-              <label htmlFor="shiftEndDate">Shift End Date:</label>
+              <label htmlFor="shiftEndTime">Shift End Time:</label>
               <Datetime
-                value={shiftEndDate}
-                onChange={(date) => setShiftEndDate(date)}
-                inputProps={{ placeholder: 'Select End Date and Time' }}
+                value={shiftEndTime}
+                onChange={(time) => setShiftEndTime(new Date(time))}
+                dateFormat={false}
+                inputProps={{ placeholder: 'Select End Time' }}
                 required
               />
             </div>
